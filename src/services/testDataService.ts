@@ -378,6 +378,15 @@ export async function fetchLatestSystemRun(system: 'OMS' | 'PARTNER_PANEL'): Pro
       return null;
     }
 
+    // Associate steps with their journeys
+    const journeysWithSteps = (journeys || []).map(journey => {
+      const journeySteps = (steps || []).filter(step => step.journey_id === journey.journey_id);
+      return {
+        ...journey,
+        steps: journeySteps
+      };
+    });
+
     // Calculate summary statistics for the system
     const { data: recentRuns, error: summaryError } = await supabase
       .from('test_runs')
@@ -399,7 +408,7 @@ export async function fetchLatestSystemRun(system: 'OMS' | 'PARTNER_PANEL'): Pro
 
     return {
       latestRun,
-      journeys: journeys || [],
+      journeys: journeysWithSteps,
       steps: steps || [],
       summary,
     };
