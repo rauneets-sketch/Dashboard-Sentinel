@@ -73,7 +73,7 @@ A comprehensive real-time dashboard for monitoring test automation results acros
 
 ## 🌐 Deployment
 
-### Render.com Deployment (Recommended)
+### Option 1: Render.com Deployment (Recommended)
 
 This application is configured for easy deployment on Render.com:
 
@@ -94,7 +94,23 @@ This application is configured for easy deployment on Render.com:
 
 📖 **Detailed deployment guide**: See [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md)
 
-### Alternative: Cloudflare Workers
+### Option 2: Vercel Deployment
+
+This application also supports Vercel deployment:
+
+1. **Connect to Vercel**:
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "New Project"
+   - Import your GitHub repository
+
+2. **Environment Variables** (configure in Vercel dashboard):
+   - `NODE_ENV=production`
+   - `SUPABASE_URL=your_supabase_url`
+   - `SUPABASE_KEY=your_service_role_key`
+
+3. **Deploy**: Vercel will auto-detect the configuration and deploy
+
+### Option 3: Cloudflare Workers
 ```bash
 npm run deploy
 ```
