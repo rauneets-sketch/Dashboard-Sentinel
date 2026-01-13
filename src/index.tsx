@@ -97,9 +97,9 @@ const generateMockTestResults = () => {
 // Import Supabase client
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://wnymknrycmldwqzdqoct.supabase.co';
-// Using service_role key to bypass RLS for reading data
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndueW1rbnJ5Y21sZHdxemRxb2N0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzcwMDk1MywiZXhwIjoyMDgzMjc2OTUzfQ.HCK8yC6jRIb67LUxOEEXI_dLs_fXcLK6m4_50iN8tPU';
+// Get Supabase configuration from environment variables
+const supabaseUrl = process.env.SUPABASE_URL || 'https://wnymknrycmldwqzdqoct.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY || 'your_supabase_service_role_key_here';
 
 const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
