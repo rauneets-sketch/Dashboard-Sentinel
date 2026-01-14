@@ -128,13 +128,13 @@ app.get("/api/test-results", async (c) => {
     let omsData: any = null;
     let partnerPanelData: any = null;
 
-    // Get recent data range, prioritizing January 12th (yesterday)
+    // Get recent data range, prioritizing January 13th (today)
     const today = new Date();
     const yesterday = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000); // January 12th
     const twoDaysAgo = new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000); // January 11th
     const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     
-    console.log(`Prioritizing January 12th data from ${twoDaysAgo.toISOString()} to ${endOfToday.toISOString()}`);
+    console.log(`Prioritizing January 13th data from ${yesterday.toISOString()} to ${endOfToday.toISOString()}`);
 
     // DESKTOP SITE DATA - Find the real Desktop Site data (not OMS or Partner Panel)
     // PRIORITY 1: Try raw_test_logs table first (this is where Playwright sends data)
@@ -142,7 +142,7 @@ app.get("/api/test-results", async (c) => {
     const { data: rawLogs, error: rawError } = await supabase
       .from('raw_test_logs')
       .select('*')
-      .gte('executed_at', twoDaysAgo.toISOString())
+      .gte('executed_at', yesterday.toISOString())
       .lt('executed_at', endOfToday.toISOString())
       .order('executed_at', { ascending: false });
 
@@ -171,15 +171,15 @@ app.get("/api/test-results", async (c) => {
         console.log(`  ${index + 1}. Date: ${date}, System: ${system || 'NO_SYSTEM'}, Journeys: ${journeyCount}, Run ID: ${log.raw_payload?.run_id}`);
       });
       
-      // First try to find January 12th data without system metadata (likely Desktop Site)
+      // First try to find January 13th data without system metadata (likely Desktop Site)
       desktopRawLog = rawLogs.find(log => {
         const system = log.raw_payload?.metadata?.system;
         const logDate = new Date(log.executed_at);
-        const isJan12 = logDate.getDate() === 12 && logDate.getMonth() === 0; // January is month 0
-        return !system && isJan12;
+        const isJan13 = logDate.getDate() === 13 && logDate.getMonth() === 0; // January is month 0
+        return !system && isJan13;
       });
       
-      // If no January 12th data, look for any recent Desktop Site data (no system metadata)
+      // If no January 13th data, look for any recent Desktop Site data (no system metadata)
       if (!desktopRawLog) {
         desktopRawLog = rawLogs.find(log => {
           const system = log.raw_payload?.metadata?.system;
@@ -242,7 +242,7 @@ app.get("/api/test-results", async (c) => {
       const { data: testRuns } = await supabase
         .from('test_runs')
         .select('*')
-        .gte('executed_at', twoDaysAgo.toISOString())
+        .gte('executed_at', yesterday.toISOString())
         .lt('executed_at', endOfToday.toISOString())
         .order('executed_at', { ascending: false });
 
@@ -917,19 +917,19 @@ app.get("/api/test-results/:platform", async (c) => {
       let latestRun: any = null;
       let journeys: any[] = [];
 
-      // Get recent data range, prioritizing January 12th (yesterday)
+      // Get recent data range, prioritizing January 13th (today)
       const today = new Date();
       const yesterday = new Date(today.getTime() - 1 * 24 * 60 * 60 * 1000); // January 12th
       const twoDaysAgo = new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000); // January 11th
       const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
       
-      console.log(`Prioritizing January 12th desktop data from ${twoDaysAgo.toISOString()} to ${endOfToday.toISOString()}`);
+      console.log(`Prioritizing January 13th desktop data from ${yesterday.toISOString()} to ${endOfToday.toISOString()}`);
 
       // PRIORITY 1: Try raw_test_logs first (where Playwright sends data) - Filter for Desktop Site
       const { data: rawLogs } = await supabase
         .from('raw_test_logs')
         .select('*')
-        .gte('executed_at', twoDaysAgo.toISOString())
+        .gte('executed_at', yesterday.toISOString())
         .lt('executed_at', endOfToday.toISOString())
         .order('executed_at', { ascending: false });
 
@@ -970,7 +970,7 @@ app.get("/api/test-results/:platform", async (c) => {
         const { data: testRuns } = await supabase
           .from('test_runs')
           .select('*')
-          .gte('executed_at', twoDaysAgo.toISOString())
+          .gte('executed_at', yesterday.toISOString())
           .lt('executed_at', endOfToday.toISOString())
           .order('executed_at', { ascending: false });
 
