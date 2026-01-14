@@ -7,16 +7,15 @@
     "build": "vite build",
     "start": "node server.js",
     "preview": "vite preview",
-    "deploy": "npm run build && wrangler pages deploy dist",
-    "deploy:prod": "npm run build && wrangler pages deploy dist --project-name fnp-pulse",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
-    "clean-port": "fuser -k 3000/tcp 2>/dev/null || true",
+    "deploy": "vercel --prod",
+    "deploy:preview": "vercel",
     "test": "curl http://localhost:3000",
     "test-env": "node test-env.cjs"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.8",
     "@hono/vite-build": "^1.8.0",
+    "@hono/vite-cloudflare-pages": "^0.4.2",
     "@hono/vite-dev-server": "^0.24.0",
     "@supabase/supabase-js": "^2.90.1",
     "dotenv": "^17.2.3",
@@ -28,10 +27,8 @@
     "vite": "^5.0.0"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20250705.0"
-  },
-  "optionalDependencies": {
-    "@hono/vite-cloudflare-pages": "^0.4.2",
+    "@cloudflare/workers-types": "4.20250705.0",
+    "@vitejs/plugin-react": "^4.2.0",
     "miniflare": "^4.20251217.0",
     "wrangler": "^3.78.0"
   }
