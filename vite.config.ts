@@ -1,25 +1,17 @@
-import build from "@hono/vite-build/node";
-import devServer from "@hono/vite-dev-server";
 import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   const env = loadEnv(mode, process.cwd(), "");
 
   return {
-    ssr: {
-      external: ["hono"],
+    plugins: [react()],
+    build: {
+      outDir: "dist",
+      sourcemap: false,
+      minify: "terser",
     },
-    plugins: [
-      build({
-        entry: "src/index.tsx",
-        outputDir: "dist",
-        minify: true,
-      }),
-      devServer({
-        entry: "src/index.tsx",
-      }),
-    ],
     define: {
       // Make environment variables available to the application
       "process.env.SUPABASE_URL": JSON.stringify(env.SUPABASE_URL),
