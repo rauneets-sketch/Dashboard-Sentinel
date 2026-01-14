@@ -1,5 +1,7 @@
 // Vercel serverless function entry point
-import { handle } from "@hono/node-server/vercel";
-import app from "../dist/index.js";
+const { handle } = require("@hono/node-server/vercel");
 
-export default handle(app);
+// Import the built app - Vercel will handle the module resolution
+const app = require("../dist/index.js").default;
+
+module.exports = handle(app);
