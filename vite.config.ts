@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "dist",
       sourcemap: false,
-      minify: "terser",
+      minify: "esbuild",
     },
     define: {
       // Make environment variables available to the application
