@@ -2769,6 +2769,3 @@ app.get("/", (c) => {
 });
 
 export default app;
-
-// Export the app for Vercel serverless deployment
-export default app;
