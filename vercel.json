@@ -1,15 +1,6 @@
 {
-  "version": 2,
-  "functions": {
-    "api/index.js": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  },
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/api"
-    }
+    { "source": "/api/(.*)", "destination": "/api/index.tsx" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
