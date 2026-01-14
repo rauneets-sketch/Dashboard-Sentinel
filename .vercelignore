@@ -28,7 +28,6 @@ TESTING_GUIDE.md
 node_modules/
 
 # Build artifacts
-dist/
 .next/
 out/
 
